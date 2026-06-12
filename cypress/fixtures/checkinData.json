@@ -1,0 +1,5 @@
+{
+  "pnr": "ABC123",
+  "departureAirport": "Baku",
+  "expectedErrorCode": "WC024"
+}

@@ -1,0 +1,9 @@
+node_modules/
+cypress/reports/
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+.idea/
+.vscode/
+.DS_Store
+*.DotSettings.user

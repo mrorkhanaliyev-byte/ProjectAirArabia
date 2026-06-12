@@ -1,0 +1,17 @@
+{
+  "name": "project-air-arabia",
+  "version": "2.0.0",
+  "description": "Cypress E2E test automation for airarabia.com (Page Object Model)",
+  "author": "Orkhan Aliyev",
+  "license": "ISC",
+  "scripts": {
+    "open": "cypress open",
+    "test": "cypress run",
+    "test:chrome": "cypress run --browser chrome",
+    "test:smoke": "cypress run --spec cypress/e2e/AirArabia/AirArabiaHomePage.cy.js"
+  },
+  "devDependencies": {
+    "cypress": "^14.0.1",
+    "cypress-mochawesome-reporter": "^3.8.4"
+  }
+}
