@@ -8,6 +8,7 @@ describe('Newsletter subscription', () => {
 
             subscriptionPage.fillForm(data);
             subscriptionPage.submit();
+            subscriptionPage.assertNoValidationErrors();
         });
     });
 });

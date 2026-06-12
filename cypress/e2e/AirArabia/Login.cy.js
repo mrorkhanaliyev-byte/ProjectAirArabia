@@ -1,14 +1,13 @@
 import homePage from '../../pages/HomePage';
 
-describe('Login', () => {
-    it('navigates to the sign-in page', () => {
+describe('AirRewards login', () => {
+    it('header has a login link and the login page shows the form', () => {
         homePage.visit();
-        homePage.openLoginMenu();
 
-        cy.get("a[href*='reservationsma.airarabia.com'][href*='signIn']").click();
+        homePage.loginLink().should('have.attr', 'href').and('include', 'login');
 
-        cy.origin('https://reservationsma.airarabia.com', () => {
-            cy.url().should('include', 'signIn');
-        });
+        cy.visit('/en/airrewards/login');
+        cy.url().should('include', 'airrewards/login');
+        cy.get('input[type="password"]').should('exist');
     });
 });

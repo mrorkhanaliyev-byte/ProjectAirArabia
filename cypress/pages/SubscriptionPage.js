@@ -1,18 +1,22 @@
 class SubscriptionPage {
-    fillForm({ title, name, email, country, language }) {
-        cy.get('#edit-submitted-title').select(title).should('have.value', title);
-        cy.get('#edit-submitted-your-name').type(name).should('have.value', name);
-        cy.get('#edit-submitted-email-address').type(email).should('have.value', email);
-        cy.get('#edit-submitted-country-and-language-country')
-            .select(country)
-            .should('have.value', country);
-        cy.get('#edit-submitted-country-and-language-language')
-            .select(language)
-            .should('have.value', language);
+    fillForm({ email, country }) {
+        // The Sitecore form re-renders shortly after page load; waiting for the
+        // submit button to be visible absorbs that re-render before typing starts.
+        cy.get('.newsletter-submit input[type="submit"]').first().scrollIntoView().should('be.visible');
+
+        cy.get('.newsletter-email input[type="email"]').first().type(email);
+        cy.get('.newsletter-email input[type="email"]').first().should('have.value', email);
+
+        cy.get('.newsletter-country select').first().select(country);
+        cy.get('.newsletter-country select').first().should('have.value', country);
     }
 
     submit() {
-        cy.get("input[value='Subscribe']").click();
+        cy.get('.newsletter-submit input[type="submit"]').first().click({ force: true });
+    }
+
+    assertNoValidationErrors() {
+        cy.get('.field-validation-error').should('not.exist');
     }
 }
 

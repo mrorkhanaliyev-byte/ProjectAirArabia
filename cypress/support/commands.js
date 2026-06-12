@@ -3,10 +3,16 @@ Cypress.on('uncaught:exception', () => {
     return false;
 });
 
-// Accepts the OneTrust cookie banner only if it is present
+// Marks the OneTrust consent banner as already dismissed so it never renders.
+// Must run before cy.visit().
+Cypress.Commands.add('suppressCookieBanner', () => {
+    cy.setCookie('OptanonAlertBoxClosed', new Date().toISOString());
+});
+
+// Fallback: accepts the cookie banner if it rendered anyway
 Cypress.Commands.add('acceptCookies', () => {
     cy.get('body').then(($body) => {
-        if ($body.find('#onetrust-accept-btn-handler').length) {
+        if ($body.find('#onetrust-accept-btn-handler:visible').length) {
             cy.get('#onetrust-accept-btn-handler').click();
         }
     });

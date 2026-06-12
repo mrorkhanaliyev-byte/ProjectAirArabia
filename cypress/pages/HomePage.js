@@ -1,29 +1,17 @@
 class HomePage {
     visit() {
+        cy.suppressCookieBanner();
         cy.visit('/en');
         cy.acceptCookies();
     }
 
-    openBookingPanel() {
-        cy.get('.swiper-slide-active > .banner-overlay > .row > .panel_content > .panel_inner > .show-for-medium').click();
-    }
-
-    openLoginMenu() {
-        cy.contains('span', 'Login').click();
-        cy.get('#ui-accordion-3-header-0').click();
-    }
-
-    openCheckin() {
-        cy.get('.menu-514 > .attached-block').should('be.visible').click();
-    }
-
-    openCarHire() {
-        cy.get('#ui-id-4').click();
+    loginLink() {
+        return cy.get('.pd001-header-login a');
     }
 
     openCustomerClaim() {
-        cy.contains('a', 'Customer Claim').click();
-        cy.contains('a', 'Click here').click();
+        cy.contains('a', 'Customer claim').invoke('removeAttr', 'target').click({ force: true });
+        cy.contains('a', 'Click here').invoke('removeAttr', 'target').click();
     }
 }
 

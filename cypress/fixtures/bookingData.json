@@ -1,7 +1,6 @@
 {
-  "origin": "GYD",
-  "destination": "Phuket",
-  "currency": "USD",
+  "origin": "Baku",
+  "destination": "Sharjah",
   "departureInDays": 30,
   "tripLengthDays": 7
 }
