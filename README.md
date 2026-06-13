@@ -1,5 +1,11 @@
 # ProjectAirArabia
 
+**🌐 Language / Dil:** [English](#english) · [Azərbaycanca](#azərbaycanca)
+
+---
+
+## English
+
 Cypress E2E test automation for [airarabia.com](https://www.airarabia.com), built with the Page Object Model pattern.
 
 > Improved fork of [Ziya860/ProjectAirArabia](https://github.com/Ziya860/ProjectAirArabia), rewritten for the redesigned Air Arabia website (Sitecore + Vue).
@@ -64,3 +70,72 @@ The Mochawesome HTML report is generated at `cypress/reports/html/index.html` af
 ## CI
 
 GitHub Actions runs all specs on every push / PR to `main` and uploads the HTML report as an artifact.
+
+---
+
+## Azərbaycanca
+
+[airarabia.com](https://www.airarabia.com) saytı üçün Page Object Model strukturu ilə yazılmış Cypress E2E (uçdan-uca) test avtomatlaşdırması.
+
+> [Ziya860/ProjectAirArabia](https://github.com/Ziya860/ProjectAirArabia) layihəsinin təkmilləşdirilmiş forku — yenilənmiş Air Arabia saytı (Sitecore + Vue) üçün sıfırdan yenidən yazılıb.
+
+### Testlərin əhatə dairəsi
+
+| Test faylı | Ssenari |
+|---|---|
+| `AirArabiaHomePage.cy.js` | Ana səhifə booking widget-i ilə birlikdə yüklənir |
+| `BookTicket.cy.js` | Gediş-qayıdış uçuş axtarışı (Bakı → Şarja) nəticə səhifəsinə yönləndirir |
+| `CheckinAirArabia.cy.js` | Check-in səhifəsi onlayn check-in keçid linkini göstərir |
+| `Claim.cy.js` | Footer-dəki "Customer claim" linki EC261 şikayət tətbiqinə aparır |
+| `Login.cy.js` | Header-dəki giriş linki düzgündür və AirRewards giriş səhifəsi formanı göstərir |
+| `Subscription.cy.js` | Xəbər bülleteni abunə forması validasiya xətası olmadan göndərilir |
+
+### Layihənin strukturu
+
+```
+cypress/
+├── e2e/AirArabia/     # Test ssenariləri (spec-lər)
+├── pages/             # Page Object-lər (selektorlar + əməliyyatlar)
+├── fixtures/          # Test datası (JSON)
+└── support/
+    ├── commands.js    # Xüsusi əmrlər (suppressCookieBanner, acceptCookies)
+    ├── utils.js       # Köməkçilər (v-calendar üçün dinamik gələcək tarixlər)
+    └── e2e.js
+```
+
+### Necə başlamalı
+
+```bash
+npm install
+npm run open          # interaktiv rejim
+npm test              # başsız (headless) rejimdə bütün testlər
+npm run test:chrome   # Chrome-da başsız işə salma
+npm run test:smoke    # yalnız ana səhifə smoke testi
+```
+
+Başsız işə salmadan sonra Mochawesome HTML hesabatı `cypress/reports/html/index.html` ünvanında yaranır.
+
+### Orijinala nisbətən nə təkmilləşdirildi
+
+- **Yeni Air Arabia saytı üçün yenidən yazıldı** — orijinal köhnə Drupal saytını hədəfləyirdi; yenilənmədən sonra bütün selektorlar işləmir idi
+- **Page Object Model** — selektorlar və səhifə əməliyyatları spec-lərdən `cypress/pages/`-ə çıxarıldı
+- **Fixtures** — test datası spec-lərdən JSON fayllarına köçürüldü
+- **Dinamik tarixlər** — sabit yazılmış 2025 tarixləri hesablanan gələcək tarixlərlə əvəzləndi ki, testlər köhnəlməsin
+- **Sabit gözləmələr yoxdur** — `cy.wait(N)` düzgün assertion və timeout-larla əvəzləndi
+- **Cookie banneri deterministik idarə olunur** — OneTrust razılıq cookie-si hər ziyarətdən əvvəl qabaqcadan qoyulur
+- **Assertion-lar əlavə edildi** — indi hər spec nəticəni yoxlayır
+- **`baseUrl`** konfiqurasiya edildi, CI qeyri-sabitliyi üçün retries aktivləşdirildi
+- **`cypress-xpath` silindi** — bütün selektorlar CSS / `cy.contains`-ə çevrildi
+- **Məxfi məlumatlar silindi** — real giriş məlumatlarını ehtiva edən aidiyyəti olmayan kod silindi
+- **Təmiz CI** — sadələşdirilmiş GitHub Actions workflow + hesabat artefaktının yüklənməsi
+
+### Sayta xas qeydlər
+
+- Booking widget **iki kalendar nümunəsi** render edir (desktop popover + gizli mobil popup) — eyni gün-xanası class-ları ilə; kliklər `:visible` ilə filtrlənməlidir.
+- `webcheckin.airarabia.com` başsız brauzerləri bloklayan WAF ilə qorunur, ona görə check-in testi origin-lər arası keçmək əvəzinə airarabia.com-dakı keçid linkini yoxlayır.
+- Orijinal layihədəki **Car hire** funksiyası yeni saytda artıq mövcud deyil, ona görə həmin spec silindi.
+- Testlər canlı production saytında işləyir — bəzən qeyri-sabitlik gözləniləndir; `retries.runMode` 1-ə qoyulub.
+
+### CI (Davamlı İnteqrasiya)
+
+GitHub Actions `main` budağına hər push / PR-da bütün testləri işə salır və HTML hesabatı artefakt kimi yükləyir.
